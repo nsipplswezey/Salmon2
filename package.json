@@ -1,0 +1,35 @@
+{
+  "name": "salmon2",
+  "version": "1.0.0",
+  "description": "Salmon in reacy",
+  "main": "index.js",
+  
+  "scripts": {
+    "webpack": "webpack --progress --colors",
+    "dev": "webpack-dev-server --progress --colors",
+    "start": "npm run dev"
+   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nsipplswezey/Salmon2.git"
+  },
+  "keywords": [
+    "salmon",
+    "static",
+    "react"
+  ],
+  "author": "Nick Sippl-Swezey",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/nsipplswezey/Salmon2/issues"
+  },
+  "homepage": "https://github.com/nsipplswezey/Salmon2#readme",
+  "devDependencies": {
+    "jsx-loader": "^0.13.2",
+    "react": "^0.13.3",
+    "react-router": "^0.13.3",
+    "static-site-generator-webpack-plugin": "^1.0.1",
+    "webpack": "^1.11.0",
+    "webpack-dev-server": "^1.10.1"
+  }
+}
