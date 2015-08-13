@@ -59,9 +59,16 @@ return /******/ (function(modules) { // webpackBootstrap
 	var Router = __webpack_require__(157)
 	var Routes = __webpack_require__(196)
 
+	if (typeof document !== 'undefined'){
+	  var initialProps = JSON.parse(document.getElementById('initial-props').innerHTML)
+	  Router.run(Routes, Router.HistoryLocation, function(Handler) {
+	    React.render(React.createElement(Handler, initialProps), document)
+	  })
+	}
+
 	module.exports = function render(locals, callback) {
 	  Router.run(Routes, locals.path, function (Handler) {
-	    var html = React.renderToStaticMarkup(React.createElement(Handler, locals))
+	    var html = React.renderToString(React.createElement(Handler, locals))
 	    callback(null, '<!DOCTYPE html>' + html)
 	  })
 	}
@@ -23563,8 +23570,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	var Route = Router.Route
 	var DefaultRoute = Router.DefaultRoute
 	var Root = __webpack_require__(197)
-	var Index = __webpack_require__(198)
-	var About = __webpack_require__(199)
+	var Index = __webpack_require__(200)
+	var About = __webpack_require__(198)
 
 	var Routes = (
 	  React.createElement(Route, {handler: Root, path: "/"}, 
@@ -23585,46 +23592,50 @@ return /******/ (function(modules) { // webpackBootstrap
 	var Router = __webpack_require__(157)
 	var RouteHandler = Router.RouteHandler
 
+	var About = __webpack_require__(198)
+	var Header = __webpack_require__(199)
+
+
 	var Root = React.createClass({displayName: "Root",
 	  render: function () {
+	    var initialProps = {
+	      __html: safeStringify(this.props)
+	    }
+
+
 	    return (
 	      React.createElement("html", null, 
 	        React.createElement("head", null, 
 	          React.createElement("title", null, this.props.title)
 	        ), 
+
 	        React.createElement("body", null, 
-	          React.createElement(RouteHandler, React.__spread({},  this.props))
+	          React.createElement(Header, null), 
+	          "Test", 
+
+
+	          React.createElement(RouteHandler, React.__spread({},  this.props)), 
+
+	          React.createElement("script", {
+	            id: "initial-props", 
+	            type: "application/json", 
+	            dangerouslySetInnerHTML: initialProps}), 
+	          React.createElement("script", {src: "bundle.js"})
 	        )
 	      )
 	    )
 	  }
 	})
 
+	function safeStringify(obj) {
+	  return JSON.stringify(obj).replace(/<\/script/g, '<\\/script').replace(/<!--/g, '<\\!--')
+	}
+
 	module.exports = Root
 
 
 /***/ },
 /* 198 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var React = __webpack_require__(1)
-
-	var Index = React.createClass({displayName: "Index",
-	  render: function() {
-	    return (
-	      React.createElement("main", null, 
-	        "Index component"
-	      )
-	    )
-	  }
-	})
-
-	module.exports = Index
-
-
-
-/***/ },
-/* 199 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// components/About.jsx
@@ -23641,6 +23652,70 @@ return /******/ (function(modules) { // webpackBootstrap
 	})
 
 	module.exports = About
+
+
+/***/ },
+/* 199 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// components/Header.jsx
+	var React= __webpack_require__(1)
+
+	var Header = React.createClass({displayName: "Header",
+	  render: function() {
+	    return (
+	      React.createElement("header", null, 
+	        React.createElement("a", {href: "/"}, "Index"), 
+	        React.createElement("a", {href: "/about"}, "About")
+	      )
+	    )
+	  }
+	})
+
+	module.exports = Header
+
+
+
+/***/ },
+/* 200 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1)
+
+	var intro = {
+	  backgroundImage: './img/test.png',
+	  marginTop: 30,
+	  width: 840,
+	  position: 'relative',
+	  marginLeft: 'auto',
+	  marginRight: 'auto'
+	};
+
+
+	var Index = React.createClass({displayName: "Index",
+	  render: function() {
+	    return (
+	      React.createElement("main", null, 
+	      React.createElement("div", {style: intro}, 
+	      "Hello world!", 
+
+	      React.createElement("a", {href: "./about.html"}, "About"), 
+
+	      React.createElement("h1", null, "This is"), 
+	      React.createElement("p", null, "A static page."), 
+	      React.createElement("p", null, "React component."), 
+	      React.createElement("p", null, "It live updates."), 
+	      React.createElement("p", null, "Holy shit."), 
+	      React.createElement("p", null, "How do I style it? Done"), 
+	      React.createElement("p", null, "How do I make next components?")
+	      )
+	      )
+	    )
+	  }
+	})
+
+	module.exports = Index
+
 
 
 /***/ }
